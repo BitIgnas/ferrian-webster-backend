@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,6 @@ public class RandomWordController {
     @GetMapping("/topics")
     public ResponseEntity<String> getRandomWordWithTopics(@RequestBody String[] topics) {
         URI location = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v2/random-word/topics").toUriString());
-        return ResponseEntity.created(location).body(randomWordService.generateRandomWordWithTopics(List.of(topics)));
+        return ResponseEntity.created(location).body(randomWordService.generateRandomWordWithTopics(Arrays.asList(topics)));
     }
 }

@@ -45,7 +45,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         ResponseEntity<DictionaryResponseDto[]> response =
                 getWordDefinitionFromApi(word, environment.getProperty("api.dictionary.url"));
 
-        return List.of(Objects.requireNonNull(response.getBody()));
+        return Arrays.asList(Objects.requireNonNull(response.getBody()));
     }
 
 
@@ -63,7 +63,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public DictionaryResponseDto getSelectMeaningOfWordDefinition(String word, Integer meaningNum) {
         ResponseEntity<DictionaryResponseDto[]> response = getWordDefinitionFromApi(word, environment.getProperty("api.dictionary.url"));
-        Map<Integer, DictionaryResponseDto> wordMeaningMap = mapResponseToMeaningMap(List.of(Objects.requireNonNull(response.getBody())));
+        Map<Integer, DictionaryResponseDto> wordMeaningMap = mapResponseToMeaningMap(Arrays.asList(Objects.requireNonNull(response.getBody())));
 
         return Optional.ofNullable(wordMeaningMap.get(meaningNum)).orElseThrow(() ->
                 new NoWordFoundInMeaningIndexException(String.format("Word: %s doesn't have meaning at index: %d", word, meaningNum)));
@@ -96,7 +96,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     public HttpEntity<String> createHttpEntity() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        httpHeaders.setAllow(Set.of(HttpMethod.GET));
+        httpHeaders.setAllow(new HashSet<>(Arrays.asList(HttpMethod.GET)));
 
         return new HttpEntity<>(httpHeaders);
     }

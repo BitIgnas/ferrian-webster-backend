@@ -36,7 +36,7 @@ public class RandomWordServiceImpl implements RandomWordService {
     @Override
     @Retryable(value = NoWordFoundException.class)
     public String generateRandomWordWithTopics(List<String> topics) {
-        DataMuseRequest dataMuseRequest = new DataMuseRequest().topics(topics.toArray(String[]::new));
+        DataMuseRequest dataMuseRequest = new DataMuseRequest().topics(topics.stream().toArray(String[]::new));
 
         try {
             String randomWord = RandomWordGenerator.getRandomWord(dataMuseRequest);
